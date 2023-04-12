@@ -59,13 +59,12 @@ fi
 echo "Node name: $NODE_NAME"
 
 # Initialize node
-celestia-appd init "$NODE_NAME" --chain-id "$CHAIN_ID"
+celestia-appd init $NODE_NAME --chain-id $CHAIN_ID
 
 # Copy genesis.json file
 cp "$HOME/networks/blockspacerace/genesis.json" "$HOME/.celestia-app/config"
 
 #Peers
-PERSISTENT_PEERS="$PERSISTENT_PEERS"
 sed -i.bak -e "s/^persistent_peers *=.*/persistent_peers = \"$PERSISTENT_PEERS\"/" $HOME/.celestia-app/config/config.toml
 
 #Configure Pruning
