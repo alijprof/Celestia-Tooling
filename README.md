@@ -1,8 +1,8 @@
-# Comands To Run 
+# Commands To Run 
 
-Light Node 
+# Light Node 
 
-wget https://raw.githubusercontent.com/alijprof/Celestia-Tooling/main/Light-Node/Light-node-tooling-1.sh && chmod +x celestia_light-1.sh && ./celestia_light-1.sh
+    wget https://raw.githubusercontent.com/alijprof/Celestia-Tooling/main/Light-Node/Light-node-tooling-1.sh && chmod +x celestia_light-1.sh && ./celestia_light-1.sh
 
 
 
