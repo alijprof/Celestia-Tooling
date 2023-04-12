@@ -5,7 +5,7 @@ cd $HOME
 rm -rf celestia-node
 git clone https://github.com/celestiaorg/celestia-node.git
 cd celestia-node/
-git checkout tags/v0.6.0
+git checkout tags/v0.8.2
 make install				
 make cel-key
 
@@ -13,18 +13,18 @@ make cel-key
 celestia light init
 
 #select gRPC endpoint use default or enter custom
-echo -n "select gRPC endpoint (1 - default-https://rpc-mocha.pops.one:9090, 2 - enter custom gRPC,default - no) > "
+echo -n "select gRPC endpoint (1 - default-https://rpc-blockspacerace.pops.one:9090, 2 - enter custom gRPC,default - no) > "
 read selectendpoint
 echo
 if test "$selectendpoint" == "1"
 then
-    RPC_ENDPOINT=$"https://rpc-mocha.pops.one:9090"
-    echo RPC_ENDPOINT=$RPC_ENDPOINT | sudo tee -i -a /root/.celestia-light-mocha/config.toml
+    RPC_ENDPOINT=$"https://rpc-blockspacerace.pops.one:9090"
+    echo RPC_ENDPOINT=$RPC_ENDPOINT | sudo tee -i -a /root/.celestia-light-blockspacerace/config.toml
 fi
 if test "$selectendpoint" == "2"
 then
     read -p "Enter Your Endpoint: " RPC_ENDPOINT
-    echo RPC_ENDPOINT=$RPC_ENDPOINT | sudo tee -i -a /root/.celestia-light-mocha/config.toml
+    echo RPC_ENDPOINT=$RPC_ENDPOINT | sudo tee -i -a /root/.celestia-light-blockspacerace/config.toml
 fi
 
 #create system service
