@@ -48,17 +48,25 @@ WantedBy=multi-user.target" > "$SERVICE_FILE"
 
 sudo mv "$SERVICE_FILE" /etc/systemd/system/
 
-# Display wallet address
-echo "Your wallet address is below. To pay for data transactions, you will need to fund this address. Check Discord for a faucet."
-cat ./cel-key list --node.type light --keyring-backend test --p2p.network "$P2P_NETWORK"
+# enable and start service
+systemctl daemon-reload
+systemctl enable celestia-bridged.service
+systemctl start celestia-bridged.service
 
-# Display logs
-echo "You can display logs at any time with:"
-echo "sudo journalctl -u celestia-bridged.service -f"
-echo -n "Press y to display logs on the terminal (otherwise press enter) > "
-read -r display_logs
-echo
+# display wallet address
+echo "Your wallet address is below. To pay for data transactions you will need to fund this address. Check Discord for a faucet."
+cel_key_list_output="$(cel-key list --node.type light --keyring-backend test --p2p.network blockspacerace)"
+if [[ $? -ne 0 ]]; then
+    echo "ERROR: failed to retrieve wallet address"
+    exit 1
+fi
+wallet_address="$(echo "${cel_key_list_output}" | jq -r '.[0].address')"
+echo "${wallet_address}"
 
+# display logs
+read -p "Do you want to display logs? (y/n) " display_logs
 if [[ "$display_logs" == "y" ]]; then
     sudo journalctl -u celestia-bridged.service -f
 fi
+
+echo "Done."
