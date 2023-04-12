@@ -1,0 +1,35 @@
+#In this part the celestia APP and NODE have already been installed during the consensus node set up
+#In this we will be running both the consensus and bridge node on the same device and linking them together
+
+cd ~/celestia-node
+celestia bridge init --core.ip localhost --p2p.network blockspacerace
+
+#create system service
+echo "[Unit]
+Description=celestia-bridge Bridge Node
+After=network-online.target
+[Service]
+User=root
+ExecStart=/usr/local/bin/celestia bridge start --core.ip localhost --core.rpc.port 26657 --core.grpc.port 9090 --keyring.accname my_celes_key --metrics.tls=false --metrics --metrics.endpoint otel.celestia.tools:4318 --gateway --gateway.addr localhost --gateway.port 26659 --p2p.network blockspacerace
+Restart=on-failure
+RestartSec=3
+LimitNOFILE=4096
+[Install]
+WantedBy=multi-user.target" > $HOME/celestia-bridged.service
+sudo mv $HOME/celestia-bridged.service /etc/systemd/system/
+
+#display wallet 
+cd celestia-node
+echo "your wallet address is below, to pay for data transactions you will need to fund this address - Check Discord for a faucet"
+echo "(cat ./cel-key list --node.type light --keyring-backend test --p2p.network blockspacerace)"
+
+#logs
+echo "you can display logs at any time with"
+echo "sudo journalctl -u celestia-bridged.service -f"
+echo -n "press y to display logs on the terminal (otherwise press enter ) > "
+read displaylogs
+echo
+if test "$displaylogs" == "y"
+then
+    sudo journalctl -u celestia-bridged.service -f
+fi
