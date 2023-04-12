@@ -1,3 +1,11 @@
+# Comands To Run 
+
+Light Node 
+
+wget https://raw.githubusercontent.com/alijprof/Celestia-Tooling/main/Light-Node/Light-node-tooling-1.sh && chmod +x celestia_light-1.sh && ./celestia_light-1.sh
+
+
+
 # Celestia-Tooling
 deployment scripts for celestia nodes
 Celestia conensus Node – Ubuntu/AMD
