@@ -4,21 +4,36 @@
 
 #In this we will be running both the consensus and bridge node on the same device and linking them together
 
-CORE_IP=${1:-localhost}
-CORE_RPC_PORT=${2:-26657}
-CORE_GRPC_PORT=${3:-9090}
-KEYRING_ACCNAME=${4:-my_celes_key}
-METRICS_TLS=${5:-false}
-METRICS_ENDPOINT=${6:-otel.celestia.tools:4318}
-GATEWAY_ADDR=${7:-localhost}
-GATEWAY_PORT=${8:-26659}
-P2P_NETWORK=${9:-blockspacerace}
+# Define default values for parameters
+DEFAULT_CORE_IP="localhost"
+DEFAULT_CORE_RPC_PORT="26657"
+DEFAULT_CORE_GRPC_PORT="9090"
+DEFAULT_KEYRING_ACCNAME="my_celes_key"
+DEFAULT_METRICS_TLS="false"
+DEFAULT_METRICS_ENDPOINT="otel.celestia.tools:4318"
+DEFAULT_GATEWAY_ADDR="localhost"
+DEFAULT_GATEWAY_PORT="26659"
+DEFAULT_P2P_NETWORK="blockspacerace"
 
+# Parse input parameters
+CORE_IP=${1:-$DEFAULT_CORE_IP}
+CORE_RPC_PORT=${2:-$DEFAULT_CORE_RPC_PORT}
+CORE_GRPC_PORT=${3:-$DEFAULT_CORE_GRPC_PORT}
+KEYRING_ACCNAME=${4:-$DEFAULT_KEYRING_ACCNAME}
+METRICS_TLS=${5:-$DEFAULT_METRICS_TLS}
+METRICS_ENDPOINT=${6:-$DEFAULT_METRICS_ENDPOINT}
+GATEWAY_ADDR=${7:-$DEFAULT_GATEWAY_ADDR}
+GATEWAY_PORT=${8:-$DEFAULT_GATEWAY_PORT}
+P2P_NETWORK=${9:-$DEFAULT_P2P_NETWORK}
+
+# Change to celestia-node directory
 cd ~/celestia-node
 
-celestia bridge init --core.ip $CORE_IP --p2p.network $P2P_NETWORK
+# Initialize celestia bridge
+celestia bridge init --core.ip "$CORE_IP" --p2p.network "$P2P_NETWORK"
 
-#create system service
+# Create system service
+SERVICE_FILE="$HOME/celestia-bridged.service"
 echo "[Unit]
 Description=celestia-bridge Bridge Node
 After=network-online.target
@@ -29,24 +44,21 @@ Restart=on-failure
 RestartSec=3
 LimitNOFILE=4096
 [Install]
-WantedBy=multi-user.target" > $HOME/celestia-bridged.service
+WantedBy=multi-user.target" > "$SERVICE_FILE"
 
-sudo mv $HOME/celestia-bridged.service /etc/systemd/system/
+sudo mv "$SERVICE_FILE" /etc/systemd/system/
 
-#display wallet 
-cd celestia-node
-echo "Your wallet address is below, to pay for data transactions you will need to fund this address - Check Discord for a faucet"
-cat ./cel-key list --node.type bridge --keyring-backend test --p2p.network $P2P_NETWORK
+# Display wallet address
+echo "Your wallet address is below. To pay for data transactions, you will need to fund this address. Check Discord for a faucet."
+cat ./cel-key list --node.type light --keyring-backend test --p2p.network "$P2P_NETWORK"
 
-#logs
-echo "You can display logs at any time with"
+# Display logs
+echo "You can display logs at any time with:"
 echo "sudo journalctl -u celestia-bridged.service -f"
 echo -n "Press y to display logs on the terminal (otherwise press enter) > "
-read displaylogs
+read -r display_logs
 echo
 
-if [[ "$displaylogs" == "y" ]]
-then
+if [[ "$display_logs" == "y" ]]; then
     sudo journalctl -u celestia-bridged.service -f
 fi
-
