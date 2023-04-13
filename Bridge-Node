@@ -30,7 +30,7 @@ P2P_NETWORK=${9:-$DEFAULT_P2P_NETWORK}
 cd ~/celestia-node
 
 # Initialize celestia bridge
-celestia bridge init --core.ip "$CORE_IP" --p2p.network "$P2P_NETWORK"
+celestia bridge init --core.ip $CORE_IP --p2p.network $P2P_NETWORK
 
 # Create system service
 SERVICE_FILE="$HOME/celestia-bridged.service"
@@ -44,9 +44,9 @@ Restart=on-failure
 RestartSec=3
 LimitNOFILE=4096
 [Install]
-WantedBy=multi-user.target" > "$SERVICE_FILE"
+WantedBy=multi-user.target" > $SERVICE_FILE
 
-sudo mv "$SERVICE_FILE" /etc/systemd/system/
+sudo mv $SERVICE_FILE /etc/systemd/system/
 
 # enable and start service
 systemctl daemon-reload
