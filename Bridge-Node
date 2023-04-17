@@ -55,7 +55,7 @@ systemctl start celestia-bridged.service
 
 # display wallet address
 echo "Your wallet address is below. To pay for data transactions you will need to fund this address. Check Discord for a faucet."
-cel_key_list_output="$(cel-key list --node.type light --keyring-backend test --p2p.network blockspacerace)"
+cel_key_list_output="$(cel-key list --node.type bridge --keyring-backend test --p2p.network blockspacerace)"
 if [[ $? -ne 0 ]]; then
     echo "ERROR: failed to retrieve wallet address"
     exit 1
