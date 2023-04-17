@@ -1,8 +1,20 @@
 # Commands To Run 
 
-# Light Node 
+The following is for running a consensus node and bridge node on the same device. You should run the consensus node shell script firs then the bridge node script as root user. 
 
-    wget https://raw.githubusercontent.com/alijprof/Celestia-Tooling/main/Light-Node/Light-node-tooling-1.sh && chmod +x celestia_light-1.sh && ./celestia_light-1.sh
+    sudo -i
+
+# Consensus Node
+
+    wget https://raw.githubusercontent.com/alijprof/Celestia-Tooling/main/Consensus-Node.sh && chmod +x Consensus-Node.sh && ./Consensus-Node.sh
+
+#Bridge Node
+
+    wget https://raw.githubusercontent.com/alijprof/Celestia-Tooling/main/Bridge-Node.sh && chmod +x Bridge-Node.sh && ./Bridge-Node.sh
+
+
+
+
 
 
 
