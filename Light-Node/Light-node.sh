@@ -17,7 +17,7 @@ sudo apt update && sudo apt upgrade -y
 #install pre-reqs
 sudo apt install curl tar wget clang pkg-config libssl-dev jq build-essential git make ncdu -y
 
-#install go ver1.20.1 sh
+#install go ver1.20.3 sh
 wget "https://raw.githubusercontent.com/alijprof/Celestia-Tooling/main/Go-Install-v1.20.3.sh"
 chmod a+x Go-Install-v1.20.3.sh
 ./Go-Install-v1.20.3.sh
