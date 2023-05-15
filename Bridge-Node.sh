@@ -76,16 +76,6 @@ systemctl daemon-reload
 systemctl enable celestia-bridged.service
 systemctl start celestia-bridged.service
 
-# display wallet address
-echo "Your wallet address is below. To pay for data transactions you will need to fund this address. Check Discord for a faucet."
-./cel-key list --node.type bridge --keyring-backend test --p2p.network "$P2P_NETWORK"
-if [[ $? -ne 0 ]]; then
-    echo "ERROR: failed to retrieve wallet address"
-    exit 1
-fi
-wallet_address="$(echo "${cel_key_list_output}" | jq -r '.[0].address')"
-echo "${wallet_address}"
-
 # display logs
 read -p "Do you want to display logs? (y/n) " display_logs
 if [[ "$display_logs" == "y" ]]; then
