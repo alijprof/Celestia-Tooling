@@ -50,11 +50,11 @@ fi
 #display wallet info or import existing
 if [ "$WALLET" == "my_celes_key" ]
 then
-    ./cel-key list --node.type full --p2p.network $P2P_NETWORK --keyring-backend test
+    ./cel-key list --node.type bridge --p2p.network $P2P_NETWORK --keyring-backend test
     echo "to pay for data transactions this address must be funded, press any key to continue"
     read -n 1 -r -s -p ""
 else
-    ./cel-key add $WALLET --keyring-backend test --node.type full --p2p.network $P2P_NETWORK --recover
+    ./cel-key add $WALLET --keyring-backend test --node.type bridge --p2p.network $P2P_NETWORK --recover
 fi
 
 # Create system service
@@ -93,7 +93,7 @@ echo "${wallet_address}"
 # display logs
 read -p "Do you want to display logs? (y/n) " display_logs
 if [[ "$display_logs" == "y" ]]; then
-    sudo journalctl -u celestia-bridged.service -f
+    sudo journalctl -u celestia-bridge.service -f
 fi
 
 echo "Congrats, Bridge Node installation is complete!!!"
