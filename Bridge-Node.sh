@@ -8,7 +8,6 @@
 DEFAULT_CORE_IP="localhost"
 DEFAULT_CORE_RPC_PORT="26657"
 DEFAULT_CORE_GRPC_PORT="9090"
-DEFAULT_KEYRING_ACCNAME="my_celes_key"
 DEFAULT_METRICS_TLS="false"
 DEFAULT_METRICS_ENDPOINT="otel.celestia.tools:4318"
 DEFAULT_GATEWAY_ADDR="localhost"
@@ -19,12 +18,11 @@ DEFAULT_P2P_NETWORK="blockspacerace"
 CORE_IP=${1:-$DEFAULT_CORE_IP}
 CORE_RPC_PORT=${2:-$DEFAULT_CORE_RPC_PORT}
 CORE_GRPC_PORT=${3:-$DEFAULT_CORE_GRPC_PORT}
-KEYRING_ACCNAME=${4:-$DEFAULT_KEYRING_ACCNAME}
-METRICS_TLS=${5:-$DEFAULT_METRICS_TLS}
-METRICS_ENDPOINT=${6:-$DEFAULT_METRICS_ENDPOINT}
-GATEWAY_ADDR=${7:-$DEFAULT_GATEWAY_ADDR}
-GATEWAY_PORT=${8:-$DEFAULT_GATEWAY_PORT}
-P2P_NETWORK=${9:-$DEFAULT_P2P_NETWORK}
+METRICS_TLS=${4:-$DEFAULT_METRICS_TLS}
+METRICS_ENDPOINT=${5:-$DEFAULT_METRICS_ENDPOINT}
+GATEWAY_ADDR=${6:-$DEFAULT_GATEWAY_ADDR}
+GATEWAY_PORT=${7:-$DEFAULT_GATEWAY_PORT}
+P2P_NETWORK=${8:-$DEFAULT_P2P_NETWORK}
 
 # Change to celestia-node directory
 cd ~/celestia-node
@@ -32,14 +30,58 @@ cd ~/celestia-node
 # Initialize celestia bridge
 celestia bridge init --core.ip $CORE_IP --p2p.network $P2P_NETWORK
 
+#WALLET SETUP
+#use default wallet or import existing
+source $HOME/.bash_profile
+echo -n "import existing wallet? (1 - use auto-generated wallet, 2 - import existing wallet) > "
+read selectwallet
+echo
+if test "$selectwallet" == "1"
+then
+    WALLET="my_celes_key"
+    echo "export WALLET=$WALLET" >> $HOME/.bash_profile
+fi
+if test "$selectwallet" == "2"
+then
+    read -p "Enter name for wallet: " WALLET
+    echo "export WALLET=$WALLET" >> $HOME/.bash_profile
+fi
+
+#display wallet info or import existing
+if [ "$WALLET" == "my_celes_key" ]
+then
+    ./cel-key list --node.type full --p2p.network $P2P_NETWORK --keyring-backend test
+    echo "to pay for data transactions this address must be funded, press any key to continue"
+    read -n 1 -r -s -p ""
+else
+    ./cel-key add $WALLET --keyring-backend test --node.type full --p2p.network $P2P_NETWORK --recover
+fi
+
 # Create system service
+
+sudo tee <<EOF >/dev/null /etc/systemd/system/celestia-bridge.service
+[Unit]
+Description=celestia-bridge Cosmos daemon
+After=network-online.target
+
+[Service]
+User=$USER
+ExecStart=$(which celestia) bridge start --core.ip $CORE_IP --core.rpc.port $CORE_RPC_PORT --core.grpc.port $CORE_GRPC_PORT --keyring.accname $WALLET --metrics.tls=$METRICS_TLS --metrics --metrics.endpoint $METRICS_ENDPOINT --gateway --gateway.addr $GATEWAY_ADDR --gateway.port $GATEWAY_PORT --p2p.network $P2P_NETWORK
+Restart=on-failure
+RestartSec=3
+LimitNOFILE=4096
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
 SERVICE_FILE="$HOME/celestia-bridged.service"
 echo "[Unit]
 Description=celestia-bridge Bridge Node
 After=network-online.target
 [Service]
 User=root
-ExecStart=/usr/local/bin/celestia bridge start --core.ip $CORE_IP --core.rpc.port $CORE_RPC_PORT --core.grpc.port $CORE_GRPC_PORT --keyring.accname $KEYRING_ACCNAME --metrics.tls=$METRICS_TLS --metrics --metrics.endpoint $METRICS_ENDPOINT --gateway --gateway.addr $GATEWAY_ADDR --gateway.port $GATEWAY_PORT --p2p.network $P2P_NETWORK
+ExecStart=/usr/local/bin/celestia bridge start --core.ip $CORE_IP --core.rpc.port $CORE_RPC_PORT --core.grpc.port $CORE_GRPC_PORT --keyring.accname $WALLET --metrics.tls=$METRICS_TLS --metrics --metrics.endpoint $METRICS_ENDPOINT --gateway --gateway.addr $GATEWAY_ADDR --gateway.port $GATEWAY_PORT --p2p.network $P2P_NETWORK
 Restart=on-failure
 RestartSec=3
 LimitNOFILE=4096
@@ -69,4 +111,6 @@ if [[ "$display_logs" == "y" ]]; then
     sudo journalctl -u celestia-bridged.service -f
 fi
 
-echo "Done."
+echo "Congrats, Bridge Node installation is complete!!!"
+
+#End of Process
