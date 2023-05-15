@@ -25,6 +25,13 @@ PRUNING_INTERVAL="10"
 #Install Dependicies
 sudo apt update && sudo apt upgrade -y && sudo apt install curl tar wget clang pkg-config libssl-dev jq build-essential bsdmainutils git make ncdu gcc git jq chrony liblz4-tool -y && sudo apt install make clang pkg-config libssl-dev build-essential git jq ncdu bsdmainutils htop net-tools lsof -y < "/dev/null" && sudo apt-get update -y && sudo apt-get install wget liblz4-tool aria2 -y && sudo apt update && sudo apt upgrade -y && sudo apt install curl tar wget clang pkg-config libssl-dev jq build-essential git make ncdu -y
 
+#Open Ports
+sudo ufw allow ssh 
+sudo ufw allow 9090
+sudo ufw allow 26659
+sudo ufw allow 26657
+sudo ufw enable
+
 # Install Go
 wget "https://raw.githubusercontent.com/alijprof/Celestia-Tooling/main/Go-Install-v1.20.3.sh"
 chmod a+x Go-Install-v1.20.3.sh
