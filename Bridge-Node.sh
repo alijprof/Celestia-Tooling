@@ -43,8 +43,9 @@ fi
 
 # Display wallet info or import existing
 if [[ "$WALLET" == "my_celes_key" ]]; then
-    ./cel-key list --node.type full --p2p.network "$P2P_NETWORK" --keyring-backend test
-    echo "To pay for data transactions, this address must be funded. Press any key to continue."
+    ./cel-key list --node.type bridge --p2p.network "$P2P_NETWORK" --keyring-backend test
+    echo "Make sure you save your ADDRESS and MNEMONIC displayed above^^"
+    echo "To pay for data transactions, this address must be funded. Check discord for faucet Press any key to continue."
     read -n 1 -r -s -p ""
 else
     ./cel-key add "$WALLET" --keyring-backend test --node.type full --p2p.network "$P2P_NETWORK" --recover
@@ -77,7 +78,7 @@ systemctl start celestia-bridged.service
 
 # display wallet address
 echo "Your wallet address is below. To pay for data transactions you will need to fund this address. Check Discord for a faucet."
-cel_key_list_output="$(cel-key list --node.type bridge --keyring-backend test --p2p.network blockspacerace)"
+./cel-key list --node.type bridge --keyring-backend test --p2p.network "$P2P_NETWORK"
 if [[ $? -ne 0 ]]; then
     echo "ERROR: failed to retrieve wallet address"
     exit 1
