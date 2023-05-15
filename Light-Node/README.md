@@ -6,5 +6,5 @@ It is important to ensure the correct hardware requirements that can be seen bel
 
 This is a shell script that automates the installation and configuration of a Celestia Light client on Ubuntu 20.04 LTS, including installing prerequisite packages, Go, selecting the Celestia Network, installing the Celestia node, initiating the Celestia node for a light client, setting up a wallet or importing an existing one, and starting the light client with SystemD.
 
-    https://raw.githubusercontent.com/alijprof/Celestia-Tooling/main/Light-Node/Light-node.sh && chmod +x Light-node.sh && ./Light-node.sh
+    wget https://raw.githubusercontent.com/alijprof/Celestia-Tooling/main/Light-Node/Light-node.sh && chmod +x Light-node.sh && ./Light-node.sh
 
