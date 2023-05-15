@@ -21,6 +21,7 @@ The shell script automates the installation and configuration of a Celestia Cons
 By following these steps and executing the shell scripts, you can conveniently install and configure both the consensus and bridge nodes on your Ubuntu 20.04 LTS device, enabling you to participate in the Celestia network and leverage its functionalities.
 
 Run as root user:
+    
     sudo -i
 
 download script, make executable and run the script using the below:
