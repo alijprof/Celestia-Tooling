@@ -27,6 +27,7 @@ sudo apt update && sudo apt upgrade -y && sudo apt install curl tar wget clang p
 
 #Open Ports
 sudo ufw allow ssh 
+sudo ufw allow 2121
 sudo ufw allow 9090
 sudo ufw allow 26659
 sudo ufw allow 26657
