@@ -52,7 +52,7 @@ else
 fi
 
 # Create system service
-SERVICE_FILE="$HOME/celestia-bridged.service"
+SERVICE_FILE="$HOME/celestia-bridge.service"
 cat > "$SERVICE_FILE" <<EOF
 [Unit]
 Description=celestia-bridge Bridge Node
@@ -73,8 +73,8 @@ sudo mv "$SERVICE_FILE" /etc/systemd/system/
 
 # Enable and start service
 systemctl daemon-reload
-systemctl enable celestia-bridged.service
-systemctl start celestia-bridged.service
+systemctl enable celestia-bridge.service
+systemctl start celestia-bridge.service
 
 # display logs
 read -p "Do you want to display logs? (y/n) " display_logs
