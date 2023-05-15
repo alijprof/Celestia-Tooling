@@ -75,21 +75,6 @@ LimitNOFILE=4096
 WantedBy=multi-user.target
 EOF
 
-SERVICE_FILE="$HOME/celestia-bridged.service"
-echo "[Unit]
-Description=celestia-bridge Bridge Node
-After=network-online.target
-[Service]
-User=root
-ExecStart=/usr/local/bin/celestia bridge start --core.ip $CORE_IP --core.rpc.port $CORE_RPC_PORT --core.grpc.port $CORE_GRPC_PORT --keyring.accname $WALLET --metrics.tls=$METRICS_TLS --metrics --metrics.endpoint $METRICS_ENDPOINT --gateway --gateway.addr $GATEWAY_ADDR --gateway.port $GATEWAY_PORT --p2p.network $P2P_NETWORK
-Restart=on-failure
-RestartSec=3
-LimitNOFILE=4096
-[Install]
-WantedBy=multi-user.target" > $SERVICE_FILE
-
-sudo mv $SERVICE_FILE /etc/systemd/system/
-
 # enable and start service
 systemctl daemon-reload
 systemctl enable celestia-bridged.service
