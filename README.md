@@ -6,8 +6,21 @@ The following hardware minimum requirements:
 - Bandwidth: 1 Gbps for Download/1 Gbps for Upload
 # Consensus & Bridge Node on one device
 
-The following is for running a consensus node and bridge node on the same device. You should run the consensus node shell script first then the bridge node script as root user. This is a shell script that automates the installation and configuration of a Celestia Consensus & Bridge client on Ubuntu 20.04 LTS, including installing prerequisite packages, Go, selecting the Celestia Network, installing the Celestia node, initiating the Celestia node for a bridge client, setting up a wallet or importing an existing one, and starting the light client with SystemD.
+To run a consensus node and a bridge node on the same device, follow these steps:
+1. Run the consensus node shell script as the root user.
+2. Once the consensus node script has been executed, proceed to run the bridge node script as the root user.
 
+The shell script automates the installation and configuration of a Celestia Consensus and Bridge client on Ubuntu 20.04 LTS. It includes the following steps:
+- Installing prerequisite packages
+- Installing Go
+- Installing the Celestia node
+- Initiating the Celestia node for a bridge client
+- Setting up a wallet or importing an existing one
+- Starting the bridge and Consesnus client with SystemD
+
+By following these steps and executing the shell scripts, you can conveniently install and configure both the consensus and bridge nodes on your Ubuntu 20.04 LTS device, enabling you to participate in the Celestia network and leverage its functionalities.
+
+Run as root user:
     sudo -i
 
 download script, make executable and run the script using the below:
