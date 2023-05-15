@@ -14,15 +14,8 @@ download script, make executable and run the script using the below:
 
     wget https://raw.githubusercontent.com/alijprof/Celestia-Tooling/main/Consensus-Node.sh && chmod +x Consensus-Node.sh && ./Consensus-Node.sh
 
-#Bridge Node
+# Bridge Node
 
     wget https://raw.githubusercontent.com/alijprof/Celestia-Tooling/main/Bridge-Node.sh && chmod +x Bridge-Node.sh && ./Bridge-Node.sh
     
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-# Light Node
-
-This is a shell script that automates the installation and configuration of a Celestia Light client on Ubuntu 20.04 LTS, including installing prerequisite packages, Go, selecting the Celestia Network, installing the Celestia node, initiating the Celestia node for a light client, setting up a wallet or importing an existing one, and starting the light client with SystemD.
-
-    https://raw.githubusercontent.com/alijprof/Celestia-Tooling/main/Light-Node/Light-node.sh && chmod +x Light-node.sh && ./Light-node.sh
-
