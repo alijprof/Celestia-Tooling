@@ -57,7 +57,7 @@ chmod a+x Celestia-App.sh
 if [ $(celestia-appd version | grep -c "0.13.0") -eq 1 ]; then
     echo "Celestia-App Installed Correctly"
 else
-    echo "Celestia-App NOT Installed Correctly"
+    echo "Celestia-App Installed Correctly"
 fi
 
 # Install Celestia Node
@@ -138,7 +138,7 @@ sudo systemctl start celestia-appd
 
 #Check Sync
 echo "consensus node is now setup and running, Check if connected to peers"
-echo "Make sure that you have 'catching_up: false', otherwise leave it running until it is in sync. Using:"curl -s localhost:26657/status | jq .result | jq .sync_info""
+echo "Make sure that you have 'catching_up: false', otherwise leave it running until it is in sync. Using:'curl -s localhost:26657/status | jq .result | jq .sync_info'"
 echo -n "press y to check Sync (otherwise press enter ) > "
 read checksync
 echo
@@ -149,7 +149,7 @@ fi
 
 #display logs 
 echo "Once 'catching_up: true' you can display logs"
-echo "you can display logs at any time with "sudo journalctl -u celestia-appd.service -f""
+echo "you can display logs at any time with 'sudo journalctl -u celestia-appd.service -f'"
 echo -n "press y to display logs on the terminal (otherwise press enter ) > "
 read displaylogs
 echo
