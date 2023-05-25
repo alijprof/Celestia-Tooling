@@ -13,6 +13,7 @@ To run a consensus node and a bridge node on the same device, follow these steps
 The shell script automates the installation and configuration of a Celestia Consensus and Bridge client on Ubuntu 20.04 LTS. It includes the following steps:
 - Installing prerequisite packages
 - Installing Go
+- Install App
 - Installing the Celestia node
 - Initiating the Celestia node for a bridge client
 - Setting up a wallet or importing an existing one
